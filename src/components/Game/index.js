@@ -1,8 +1,21 @@
 import { useEffect, useState } from "react";
+import "antd/dist/antd.css";
+import { Button } from "antd";
+import styles from "./game.module.css";
 import Board from "../Board";
 
 const Game = () => {
-  const [grid, setGrid] = useState([null, null, null, null, null, null, null, null, null]);
+  const [grid, setGrid] = useState([
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ]);
   const [winner, setWinner] = useState(null);
   const [turn, setTurn] = useState(true);
 
@@ -15,7 +28,7 @@ const Game = () => {
     if (grid[2] === grid[5] && grid[2] === grid[8]) setWinner(grid[2]);
     if (grid[0] === grid[4] && grid[0] === grid[8]) setWinner(grid[0]);
     if (grid[2] === grid[4] && grid[2] === grid[6]) setWinner(grid[2]);
-    else if (grid.every(item => item !== null)) setWinner("Draw");
+    else if (grid.every((item) => item !== null)) setWinner("Draw");
   }
 
   function makeMove(index, e) {
@@ -35,7 +48,7 @@ const Game = () => {
   useEffect(() => checkWinner());
 
   return (
-    <div className="App">
+    <div className={styles.container}>
       {!winner && (
         <>
           <Board makeMove={makeMove} grid={grid} />
@@ -44,8 +57,12 @@ const Game = () => {
       )}
       {winner && (
         <>
-          <h3>{winner === "X" || winner === "O" ? `${winner} wins!` : "Draw!"}</h3>
-          <button onClick={resetGame}>Reset</button>
+          <h3>
+            {winner === "X" || winner === "O" ? `${winner} wins!` : "Draw!"}
+          </h3>
+          <Button type="primary" onClick={resetGame}>
+            Reset
+          </Button>
         </>
       )}
     </div>
