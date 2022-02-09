@@ -1,13 +1,33 @@
 import Board from "../Board";
 import "./App.css";
-import React, {useState}from "react";
+import React, { useState } from "react";
 
 const Game = () => {
-  const [grid, setGrid] = useState(["x","x","x","x","x","x","x","x","x"])
+  const [grid, setGrid] = useState([
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ]);
+
+  const [turn, setTurn] = useState(true);
+
+  function makeMove(index, e) {
+    if (e.target.innerText) return;
+    const newGrid = [...grid];
+    newGrid[index] = "x";
+    setGrid(newGrid);
+  }
+  console.log(grid);
 
   return (
     <div className="App">
-      <Board grid = {grid} />
+      <Board makeMove={makeMove} grid={grid} />
       <h3>Player move: {}</h3>
       <h3>Winner: {}</h3>
     </div>

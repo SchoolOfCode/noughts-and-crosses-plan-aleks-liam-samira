@@ -2,4 +2,6 @@
   text-align: center;
   display: grid;
   grid-template-columns: repeat(3, 50px);
+  grid-template-rows: repeat(3, 50px);
+  width: max-content;
 }
