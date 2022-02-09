@@ -20,8 +20,9 @@ const Game = () => {
   function makeMove(index, e) {
     if (e.target.innerText) return;
     const newGrid = [...grid];
-    newGrid[index] = "x";
+    newGrid[index] = turn ? "x" : "o";
     setGrid(newGrid);
+    setTurn(!turn);
   }
   console.log(grid);
 
