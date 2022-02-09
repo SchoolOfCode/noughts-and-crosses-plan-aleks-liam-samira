@@ -7,6 +7,7 @@ const Board = ({ grid, makeMove }) => {
       {grid.map((item, index) => {
         return (
           <Square
+            key={index}
             index={index}
             makeMove={makeMove}
             value={item}
