@@ -1,34 +1,31 @@
 import { useEffect, useState } from "react";
-import "antd/dist/antd.css";
 import { Button } from "antd";
 import styles from "./game.module.css";
+import "antd/dist/antd.min.css";
 import Board from "../Board";
 
 const Game = () => {
-  const [grid, setGrid] = useState([
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  ]);
-  const [winner, setWinner] = useState(null);
+  const [grid, setGrid] = useState([null, null, null, null, null, null, null, null, null]);
+  const [winner, setWinner] = useState("");
   const [turn, setTurn] = useState(true);
 
-  function checkWinner() {
-    if (grid[0] === grid[1] && grid[0] === grid[2]) setWinner(grid[0]);
-    if (grid[3] === grid[4] && grid[3] === grid[5]) setWinner(grid[3]);
-    if (grid[6] === grid[7] && grid[6] === grid[8]) setWinner(grid[6]);
-    if (grid[0] === grid[3] && grid[0] === grid[6]) setWinner(grid[0]);
-    if (grid[1] === grid[4] && grid[1] === grid[7]) setWinner(grid[1]);
-    if (grid[2] === grid[5] && grid[2] === grid[8]) setWinner(grid[2]);
-    if (grid[0] === grid[4] && grid[0] === grid[8]) setWinner(grid[0]);
-    if (grid[2] === grid[4] && grid[2] === grid[6]) setWinner(grid[2]);
-    else if (grid.every((item) => item !== null)) setWinner("Draw");
+  function checkWinner(grid) {
+    const outcomes = [
+      [0, 1, 2], // Top Row
+      [3, 4, 5], // Middle Row
+      [6, 7, 8], // Bottom Row
+      [0, 3, 6], // Left Column
+      [1, 4, 7], // Middle Column
+      [2, 5, 8], // Right Column
+      [0, 4, 8], // Diagonal Top Left - Bottom Right
+      [2, 4, 6], // Diagonal Top Right - Bottom Left
+    ];
+
+    for (let i = 0; i < outcomes.length; i++) {
+      const [a, b, c] = outcomes[i];
+      if (grid[a] && grid[a] === grid[b] && grid[b] === grid[c]) setWinner(grid[a]);
+      else if (grid.every(item => item !== null)) setWinner("Draw");
+    }
   }
 
   function makeMove(index, e) {
@@ -37,15 +34,16 @@ const Game = () => {
     newGrid[index] = turn ? "X" : "O";
     setGrid(newGrid);
     setTurn(!turn);
+    checkWinner(grid);
   }
 
+  useEffect(() => checkWinner(grid));
+
   function resetGame() {
-    setWinner(null);
+    setWinner("");
     setGrid([null, null, null, null, null, null, null, null, null]);
     setTurn(true);
   }
-
-  useEffect(() => checkWinner());
 
   return (
     <div className={styles.container}>
@@ -56,14 +54,12 @@ const Game = () => {
         </>
       )}
       {winner && (
-        <>
-          <h3>
-            {winner === "X" || winner === "O" ? `${winner} wins!` : "Draw!"}
-          </h3>
+        <div className={styles.winner}>
+          <h3>{winner === "X" || winner === "O" ? `${winner} wins!` : "Draw!"}</h3>
           <Button type="primary" onClick={resetGame}>
             Reset
           </Button>
-        </>
+        </div>
       )}
     </div>
   );

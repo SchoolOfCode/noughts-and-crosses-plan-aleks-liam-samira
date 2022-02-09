@@ -1,4 +1,17 @@
 .container {
   display: grid;
   place-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.winner {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 10rem;
+  font-weight: bold;
 }
